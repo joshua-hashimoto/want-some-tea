@@ -1,0 +1,28 @@
+version: "3"
+
+networks:
+  dev:
+    driver: bridge
+
+services:
+  nginx:
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx
+    ports:
+      - 5176:80
+    volumes:
+      - ./nginx:/etc/nginx/conf.d/
+    depends_on:
+      - client
+  client:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./frontend
+    volumes:
+      - /app/node_modules # container内のnode_modulesを使用
+      - ./frontend:/app
+    expose:
+      - 5173
+    stdin_open: true
