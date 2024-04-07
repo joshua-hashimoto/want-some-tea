@@ -10,16 +10,29 @@
     "lint:fix": "eslint . --fix --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "storybook": "storybook dev -p 6006",
+    "storybook:build": "storybook build",
+    "storybook:doctor": "storybook doctor"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.3.6",
     "@tanstack/react-query": "^5.28.14",
     "antd": "5.10.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.22.3"
+    "react-router-dom": "^6.22.3",
+    "recoil": "^0.7.7"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "^1.2.26",
+    "@storybook/addon-essentials": "^8.0.5",
+    "@storybook/addon-interactions": "^8.0.5",
+    "@storybook/addon-links": "^8.0.5",
+    "@storybook/blocks": "^8.0.5",
+    "@storybook/react": "^8.0.5",
+    "@storybook/react-vite": "^8.0.5",
+    "@storybook/test": "^8.0.5",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^14.2.2",
     "@testing-library/user-event": "^14.5.2",
@@ -45,8 +58,11 @@
     "msw": "^2.2.13",
     "path": "^0.12.7",
     "sass": "^1.72.0",
+    "storybook": "^8.0.5",
+    "storybook-addon-remix-react-router": "^3.0.0",
     "typescript": "^5.2.2",
     "vite": "^5.2.0",
+    "vite-plugin-svgr": "^4.2.0",
     "vite-tsconfig-paths": "^4.3.2",
     "vitest": "^1.4.0"
   }

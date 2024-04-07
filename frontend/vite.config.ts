@@ -1,6 +1,7 @@
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { defineConfig } from "vite";
+import svgrPlugin from "vite-plugin-svgr";
 import tsConfigPath from "vite-tsconfig-paths";
 
 const srcPath = path.resolve(__dirname, "./src");
@@ -11,21 +12,10 @@ export default defineConfig({
     port: 5173,
     host: true, // docker外からこちらにアクセスできるために設定
   },
-  plugins: [react(), tsConfigPath()],
+  plugins: [react(), tsConfigPath(), svgrPlugin()],
   resolve: {
     alias: {
       "~": srcPath,
-    },
-  },
-  css: {
-    preprocessorOptions: {
-      // scss: {
-      //   additionalData: `@import "${srcPath}/assets/scss/variables.scss"`,
-      // },
-      less: {
-        modifyVars: {},
-        javascriptEnabled: true,
-      },
     },
   },
   build: {
