@@ -10,9 +10,15 @@ const srcPath = path.resolve(__dirname, "./src");
 export default defineConfig({
   server: {
     port: 5173,
-    host: true, // docker外からこちらにアクセスできるために設定
+    host: true, // docker外からこちらにアクセスできるようにするために設定
   },
-  plugins: [react(), tsConfigPath(), svgrPlugin()],
+  plugins: [
+    react({
+      jsxImportSource: "@emotion/react",
+    }),
+    tsConfigPath(),
+    svgrPlugin(),
+  ],
   resolve: {
     alias: {
       "~": srcPath,
