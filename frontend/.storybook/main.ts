@@ -32,7 +32,7 @@ const config: StorybookConfig = {
     options: {},
   },
   staticDirs: ["../public"],
-  async viteFinal(config, { configType }) {
+  viteFinal: async (config, { configType }) => {
     const isProduction = configType === "PRODUCTION";
     const envConfig = isProduction ? prodConfig : devConfig;
     const userConfigFilePath = path.resolve(__dirname, "../vite.config.ts");
