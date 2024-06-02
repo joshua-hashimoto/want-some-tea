@@ -1,14 +1,9 @@
 export const Routes = {
-  public: {
-    init: "",
-    rooms: {
-      entry: "/rooms/entry",
-      create: "/rooms/create",
-      detail: "/rooms/:id",
-    },
-  },
-  protected: {
-    account: "/account",
+  init: "",
+  rooms: {
+    entry: "/rooms/entry",
+    create: "/rooms/create",
+    detail: "/rooms/:id",
   },
   error: {
     unauthorized: "/unauthorized",
