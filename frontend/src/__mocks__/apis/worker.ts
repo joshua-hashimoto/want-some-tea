@@ -1,7 +1,4 @@
-import { RequestHandler } from "msw";
-
+import { handlers } from "./handlers";
 import { setupWorker } from "msw/browser";
-
-const handlers: RequestHandler[] = [];
 
 export const mockWorker = setupWorker(...handlers);

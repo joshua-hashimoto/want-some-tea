@@ -9,6 +9,7 @@ import {
 import { withRouter } from "storybook-addon-remix-react-router";
 import { ConfigProvider } from "antd";
 import { RecoilRoot } from "recoil";
+import { antdTheme } from "../src/utils/theme";
 
 const queryDecorator = (Story: StoryFn) => {
   const queryCache = new QueryCache({
@@ -50,7 +51,7 @@ const recoilDecorator = (Story: StoryFn) => {
 
 const themeDecorator = (Story: StoryFn) => {
   return (
-    <ConfigProvider>
+    <ConfigProvider theme={antdTheme}>
       <Story />
     </ConfigProvider>
   );
