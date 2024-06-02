@@ -31,6 +31,6 @@ describe("vitest test", () => {
     const button = await screen.findByRole("button", { name: /TOPに戻る/ });
     await userEvent.click(button);
 
-    expect(mockedNavigator).toBeCalledWith(Routes.public.room.create);
+    expect(mockedNavigator).toBeCalledWith(Routes.public.rooms.create);
   });
 });

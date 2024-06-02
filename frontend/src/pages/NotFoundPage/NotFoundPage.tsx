@@ -14,7 +14,7 @@ const NotFoundPage: React.FC<NotFoundPageProps> = ({ ...props }) => {
   const navigate = useNavigate();
 
   const onClick = (): void => {
-    navigate(Routes.public.room.create);
+    navigate(Routes.public.rooms.create);
   };
 
   return (

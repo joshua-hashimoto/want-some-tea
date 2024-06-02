@@ -1,9 +1,10 @@
 export const Routes = {
   public: {
     init: "",
-    room: {
-      create: "/room/create",
-      detail: "/room/:id",
+    rooms: {
+      entry: "/rooms/entry",
+      create: "/rooms/create",
+      detail: "/rooms/:id",
     },
   },
   protected: {

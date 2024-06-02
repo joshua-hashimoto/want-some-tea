@@ -11,6 +11,7 @@ import * as NotFoundPageStories from "./NotFoundPage.stories";
 const { Default } = composeStories(NotFoundPageStories);
 
 // NOTE: 表示テストはStorybookに任せる
+// NOTE: This test is for memo
 describe("storybook test", () => {
   test("Default", async () => {
     const { container } = render(<Default />);
@@ -31,6 +32,6 @@ describe("vitest test", () => {
     const button = await screen.findByRole("button", { name: /TOPに戻る/ });
     await userEvent.click(button);
 
-    expect(mockedNavigator).toBeCalledWith(Routes.public.room.create);
+    expect(mockedNavigator).toBeCalledWith(Routes.public.rooms.create);
   });
 });
