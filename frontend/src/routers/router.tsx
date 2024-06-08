@@ -15,14 +15,29 @@ import { Routes } from "./routes";
 const NotFoundPage = lazy(() => import("~/pages/NotFoundPage"));
 const UnauthorizedPage = lazy(() => import("~/pages/UnauthorizedPage"));
 const ExamplePage = lazy(() => import("~/pages/ExamplePage"));
+const RoomEntryPage = lazy(() => import("~/pages/RoomEntryPage"));
+const RoomCreatePage = lazy(() => import("~/pages/RoomCreatePage"));
+const RoomPage = lazy(() => import("~/pages/RoomPage"));
 
 export const routes: RouteObject[] = [
   {
     element: <PublicRoute />,
     children: [
       {
-        path: Routes.public.init,
+        path: Routes.init,
         element: <ExamplePage />,
+      },
+      {
+        path: Routes.rooms.entry,
+        element: <RoomEntryPage />,
+      },
+      {
+        path: Routes.rooms.create,
+        element: <RoomCreatePage />,
+      },
+      {
+        path: Routes.rooms.detail,
+        element: <RoomPage />,
       },
     ],
   },
@@ -45,7 +60,7 @@ export const routes: RouteObject[] = [
   },
   {
     path: "*",
-    element: <Navigate to={Routes.error.notFound} />,
+    element: <Navigate to={Routes.rooms.entry} />,
   },
 ];
 
