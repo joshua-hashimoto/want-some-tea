@@ -7,8 +7,8 @@ import App from "./App.tsx";
 import { antdTheme } from "./utils/theme.ts";
 
 const setup = async (): Promise<void> => {
-  const isDevMode = import.meta.env.DEV;
-  if (isDevMode) {
+  const isMockMode = import.meta.env.MODE === "mock";
+  if (isMockMode) {
     const { mockWorker } = await import("./__mocks__/apis/worker.ts");
     mockWorker.start({
       onUnhandledRequest: "bypass",
