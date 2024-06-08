@@ -18,6 +18,8 @@ services:
     build:
       dockerfile: Dockerfile.dev
       context: ./frontend
+    environment:
+      - VITE_API_URL=http://localhost5176
     volumes:
       - /app/node_modules # container内のnode_modulesを使用
       - ./frontend:/app
