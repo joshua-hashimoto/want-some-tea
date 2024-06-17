@@ -10,6 +10,14 @@ import { withRouter } from "storybook-addon-remix-react-router";
 import { ConfigProvider } from "antd";
 import { RecoilRoot } from "recoil";
 import { antdTheme } from "../src/utils/theme";
+import { storybookHandlers } from "../src/__mocks__/apis/handlers";
+
+import { initialize, mswLoader } from "msw-storybook-addon";
+
+// Initialize MSW
+initialize({
+  onUnhandledRequest: "bypass",
+});
 
 const queryDecorator = (Story: StoryFn) => {
   const queryCache = new QueryCache({
@@ -65,8 +73,14 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
+    msw: {
+      handlers: {
+        ...storybookHandlers,
+      },
+    },
   },
   decorators: [withRouter, recoilDecorator, themeDecorator, queryDecorator],
+  loaders: [mswLoader],
 };
 
 export default preview;
