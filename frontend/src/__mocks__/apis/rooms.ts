@@ -2,13 +2,9 @@ import { HttpStatusCode } from "axios";
 import { http, HttpHandler, HttpResponse, PathParams } from "msw";
 import { v4 as uuidv4 } from "uuid";
 
-import {
-  PurchaseItem,
-  RoomCreateForm,
-  RoomCreateResponse,
-  RoomDetailResponse,
-} from "~/models";
+import { RoomCreateForm, RoomCreateResponse } from "~/models";
 
+import { roomDetail } from "../data/rooms";
 import { badRequestMockResponse } from "./commonResponse";
 
 const url = import.meta.env.VITE_API_URL;
@@ -18,7 +14,7 @@ type MockApis = {
   createRoom: HttpHandler;
 };
 
-export const roomMockAPis: MockApis = {
+export const roomMockApis: MockApis = {
   fetchRoom: http.get(`${url}/rooms/:id`, ({ params }) => {
     const roomId = params.id;
 
@@ -26,32 +22,7 @@ export const roomMockAPis: MockApis = {
       return badRequestMockResponse;
     }
 
-    const items: PurchaseItem[] = [
-      {
-        id: uuidv4(),
-        name: "Bacchus",
-        amount: 2,
-      },
-      {
-        id: uuidv4(),
-        name: "じゃがりこ",
-        amount: 1,
-      },
-      {
-        id: uuidv4(),
-        name: "モンスター",
-        amount: 6,
-      },
-    ];
-    const data: RoomDetailResponse = {
-      id: uuidv4(),
-      title: "Mock Room",
-      description: "This is a description for the room",
-      items,
-      closingAt: "2024-12-31",
-    };
-
-    return HttpResponse.json(data, { status: HttpStatusCode.Ok });
+    return HttpResponse.json(roomDetail, { status: HttpStatusCode.Ok });
   }),
   createRoom: http.post<PathParams, RoomCreateForm>(
     `${url}/rooms/create`,
