@@ -1,5 +1,14 @@
 import { RequestHandler } from "msw";
 
-import { roomMockAPis } from "./rooms";
+import { authMockApis } from "./auth";
+import { roomMockApis } from "./rooms";
 
-export const handlers: RequestHandler[] = [...Object.values(roomMockAPis)];
+export const handlers: RequestHandler[] = [
+  ...Object.values(authMockApis),
+  ...Object.values(roomMockApis),
+];
+
+export const storybookHandlers = {
+  ...authMockApis,
+  ...roomMockApis,
+};

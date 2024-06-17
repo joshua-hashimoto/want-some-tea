@@ -22,6 +22,8 @@ export type RoomDetail = {
   closingAt: dayjs.Dayjs;
 };
 
+export type RoomForm = Omit<RoomDetail, "closingAt">;
+
 export type RoomCreateForm = {
   name: string;
 };
