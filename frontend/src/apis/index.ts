@@ -1,5 +1,6 @@
 import axios, { CreateAxiosDefaults } from "axios";
 
+import { authEndpoints } from "./auth";
 import { roomsEndpoints } from "./rooms";
 
 const clientConfig: CreateAxiosDefaults = {
@@ -16,3 +17,4 @@ export const client = axios.create({
 });
 
 export const roomsApi = roomsEndpoints(client);
+export const authApi = authEndpoints(client);
