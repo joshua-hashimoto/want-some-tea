@@ -1,5 +1,6 @@
-import { Button, Card, Col, Input, Row } from "antd";
+import { Button, Col, Input, Row } from "antd";
 
+import Card from "~/components/Card";
 import Form from "~/components/Form";
 import Page from "~/components/Page";
 import { useCreateRoom } from "~/hooks";

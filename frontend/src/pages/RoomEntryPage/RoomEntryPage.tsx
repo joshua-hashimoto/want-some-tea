@@ -1,9 +1,10 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Card, Col, Input, Row, Typography } from "antd";
+import { Col, Input, Row, Typography } from "antd";
 import { useDebounce } from "use-debounce";
 
+import Card from "~/components/Card";
 import Page from "~/components/Page";
 import { Routes } from "~/routers";
 
