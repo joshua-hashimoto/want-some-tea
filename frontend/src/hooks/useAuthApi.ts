@@ -14,17 +14,10 @@ type UseSignUpMutation = UseMutationResult<
   unknown
 >;
 
-export const useSignUpMutation = (): UseSignUpMutation => {
-  const setAccessToken = useSetRecoilState(accessTokenAtom);
-
-  return useMutation({
+export const useSignUpMutation = (): UseSignUpMutation =>
+  useMutation({
     mutationFn: authApi.signUp,
-    onSuccess: (result) => {
-      const data = result.data;
-      setAccessToken(data.accessToken);
-    },
   });
-};
 
 type UseSignInMutation = UseMutationResult<
   AxiosResponse<SignInResponse>,
