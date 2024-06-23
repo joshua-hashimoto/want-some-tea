@@ -79,7 +79,7 @@ const preview: Preview = {
       },
     },
   },
-  decorators: [withRouter, recoilDecorator, themeDecorator, queryDecorator],
+  decorators: [recoilDecorator, queryDecorator, themeDecorator, withRouter],
   loaders: [mswLoader],
 };
 
