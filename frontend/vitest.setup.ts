@@ -5,6 +5,13 @@ import { mockServer } from "~/__mocks__/apis/server";
 
 import "@testing-library/jest-dom/vitest";
 
+// Mock getComputedStyle
+Object.defineProperty(window, "getComputedStyle", {
+  value: () => ({
+    getPropertyValue: () => "",
+  }),
+});
+
 // NOTE: for testing Antd components
 Object.defineProperty(window, "matchMedia", {
   writable: true,
