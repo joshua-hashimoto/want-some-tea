@@ -42,5 +42,8 @@ export default defineConfig({
     alias: {
       "~": path.resolve(__dirname, "./src"),
     },
+    env: {
+      VITE_API_URL: "http://localhost:6006",
+    },
   },
 });
