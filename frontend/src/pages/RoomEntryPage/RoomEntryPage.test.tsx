@@ -1,10 +1,12 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
+
+import { renderComponent } from "~/utils/tests";
 
 import RoomEntryPage from "./RoomEntryPage";
 
 describe("UI test", () => {
   test("test elements is displaying", () => {
-    render(<RoomEntryPage />);
+    renderComponent(<RoomEntryPage />);
 
     const title = screen.getByText(/部屋IDを入力/);
     expect(title).toBeInTheDocument();
