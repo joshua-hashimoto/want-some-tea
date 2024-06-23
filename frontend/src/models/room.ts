@@ -25,7 +25,7 @@ export type RoomDetail = {
 export type RoomForm = Omit<RoomDetail, "closingAt">;
 
 export type RoomCreateForm = {
-  name: string;
+  title: string;
 };
 
 export type RoomCreateResponse = {

@@ -26,7 +26,7 @@ const RoomCreatePage: React.FC<RoomCreatePageProps> = () => {
                 <Col span={24}>
                   <Row>
                     <Col span={24}>
-                      <Form.Item name="name">
+                      <Form.Item name="title">
                         <Input />
                       </Form.Item>
                     </Col>

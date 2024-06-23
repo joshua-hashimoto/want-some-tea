@@ -2,34 +2,35 @@ import { HttpStatusCode } from "axios";
 import { http, HttpHandler, HttpResponse, PathParams } from "msw";
 import { v4 as uuidv4 } from "uuid";
 
-import { RoomCreateForm, RoomCreateResponse } from "~/models";
+import {
+  RoomCreateForm,
+  RoomCreateResponse,
+  RoomDetailResponse,
+  RoomForm,
+} from "~/models";
 
 import { roomDetail } from "../data/rooms";
-import { badRequestMockResponse } from "./commonResponse";
+import {
+  badRequestMockResponse,
+  serverErrorMockResponse,
+} from "./commonResponse";
 
 const url = import.meta.env.VITE_API_URL;
 
 type MockApis = {
-  fetchRoom: HttpHandler;
   createRoom: HttpHandler;
+  fetchRoom: HttpHandler;
+  updateRoom: HttpHandler;
+  deleteRoom: HttpHandler;
 };
 
 export const roomMockApis: MockApis = {
-  fetchRoom: http.get(`${url}/rooms/:id`, ({ params }) => {
-    const roomId = params.id;
-
-    if (!roomId) {
-      return badRequestMockResponse;
-    }
-
-    return HttpResponse.json(roomDetail, { status: HttpStatusCode.Ok });
-  }),
   createRoom: http.post<PathParams, RoomCreateForm>(
     `${url}/rooms/create`,
     async ({ request }) => {
-      const { name } = await request.json();
+      const { title } = await request.json();
 
-      if (!name) {
+      if (!title) {
         return badRequestMockResponse;
       }
 
@@ -39,4 +40,45 @@ export const roomMockApis: MockApis = {
       return HttpResponse.json(data);
     }
   ),
+  fetchRoom: http.get(`${url}/rooms/:id`, ({ params }) => {
+    const roomId = params.id;
+
+    if (!roomId) {
+      return badRequestMockResponse;
+    }
+
+    return HttpResponse.json(roomDetail, { status: HttpStatusCode.Ok });
+  }),
+  updateRoom: http.put<PathParams, RoomForm>(
+    `${url}/rooms/:id`,
+    async ({ params, request }) => {
+      try {
+        const roomId = params.id;
+
+        if (!roomId) {
+          return badRequestMockResponse;
+        }
+
+        const body = await request.json();
+
+        const data: RoomDetailResponse = {
+          ...roomDetail,
+          ...body,
+        };
+
+        return HttpResponse.json(data);
+      } catch (err) {
+        return serverErrorMockResponse;
+      }
+    }
+  ),
+  deleteRoom: http.delete(`${url}/rooms/:id`, ({ params }) => {
+    const roomId = params.id;
+
+    if (!roomId) {
+      return badRequestMockResponse;
+    }
+
+    return HttpResponse.json(undefined);
+  }),
 };
