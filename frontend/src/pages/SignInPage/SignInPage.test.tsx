@@ -2,9 +2,8 @@ import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { Routes } from "~/routers";
-import { renderComponent } from "~/utils/tests";
+import { mockedNavigator, renderComponent } from "~/utils/tests";
 
-import { mockedNavigator } from "../../../vitest.setup";
 import SignInPage from "./SignInPage";
 
 const email = "example@example.com";

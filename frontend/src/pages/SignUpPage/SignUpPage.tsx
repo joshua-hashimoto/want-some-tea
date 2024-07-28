@@ -20,7 +20,7 @@ const SignUpPage: React.FC<SignUpPageProps> = () => {
   const onFinish = (values: SignUpForm): void => {
     signUp(values, {
       onSuccess: () => {
-        navigate(Routes.auth.singIn);
+        navigate(Routes.auth.signIn);
       },
     });
   };

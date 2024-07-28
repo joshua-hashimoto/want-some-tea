@@ -4,9 +4,9 @@ import userEvent from "@testing-library/user-event";
 
 import { Routes } from "~/routers";
 
-import { mockedNavigator } from "../../../vitest.setup";
 import UnauthorizedPage from "./UnauthorizedPage";
 import * as UnauthorizedPageStories from "./UnauthorizedPage.stories";
+import { mockedNavigator } from "~/utils/tests";
 
 const { Default } = composeStories(UnauthorizedPageStories);
 

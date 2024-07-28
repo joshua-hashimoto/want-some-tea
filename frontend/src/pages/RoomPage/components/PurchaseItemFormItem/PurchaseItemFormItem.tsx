@@ -39,24 +39,30 @@ const PurchaseItemFormItem: React.FC<Props> = ({
 
   return (
     <React.Fragment>
-      <Row gutter={8} align="middle" css={{ margin: 16 }}>
+      <Row
+        gutter={8}
+        align="middle"
+        css={{ margin: 16 }}
+        data-testid="purchase-item-form-item">
         <Col flex="auto">
           <Form.Item
             {...props}
             name={[name, "name"]}
             rules={[
               { required: true, message: "商品名は必ず入力してください" },
-            ]}
-            noStyle>
-            <Input placeholder="商品名" />
+            ]}>
+            <Input placeholder="商品名" data-testid="name-input" />
           </Form.Item>
         </Col>
         <Col>
-          <Button
-            danger
-            icon={<MinusOutlined />}
-            onClick={() => onDecrementItem(["items", name, "amount"])}
-          />
+          <Form.Item>
+            <Button
+              danger
+              icon={<MinusOutlined />}
+              onClick={() => onDecrementItem(["items", name, "amount"])}
+              data-testid="minus-button"
+            />
+          </Form.Item>
         </Col>
         <Col
           span={1}
@@ -64,11 +70,13 @@ const PurchaseItemFormItem: React.FC<Props> = ({
             display: "flex",
             justifyContent: "center",
           }}>
-          <Form.Item shouldUpdate noStyle>
+          <Form.Item shouldUpdate>
             {({ getFieldValue }) => {
               const amount = getFieldValue(["items", name, "amount"]);
               return (
-                <Typography.Text css={{ fontSize: 18 }}>
+                <Typography.Text
+                  css={{ fontSize: 18 }}
+                  data-testid="item-amount">
                   {amount ? amount : 0}
                 </Typography.Text>
               );
@@ -76,22 +84,28 @@ const PurchaseItemFormItem: React.FC<Props> = ({
           </Form.Item>
         </Col>
         <Col>
-          <Button
-            icon={<PlusOutlined />}
-            onClick={() => onIncrementItem(["items", name, "amount"])}
-          />
+          <Form.Item>
+            <Button
+              icon={<PlusOutlined />}
+              onClick={() => onIncrementItem(["items", name, "amount"])}
+              data-testid="plus-button"
+            />
+          </Form.Item>
         </Col>
         <Col>
-          <Button
-            danger
-            type="text"
-            onClick={() => remove(name)}
-            icon={<DeleteOutlined />}
-          />
+          <Form.Item>
+            <Button
+              danger
+              type="text"
+              onClick={() => remove(name)}
+              icon={<DeleteOutlined />}
+              data-testid="delete-button"
+            />
+          </Form.Item>
         </Col>
       </Row>
       <Form.Item {...props} hidden name={[name, "amount"]} noStyle>
-        <InputNumber />
+        <InputNumber data-testid="hidden-amount" />
       </Form.Item>
     </React.Fragment>
   );

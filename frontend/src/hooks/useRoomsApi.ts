@@ -7,6 +7,7 @@ import {
   UseQueryResult,
 } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
+import dayjs from "dayjs";
 
 import { roomsApi } from "~/apis";
 import {
@@ -14,6 +15,7 @@ import {
   RoomCreateResponse,
   RoomDetail,
   RoomDetailResponse,
+  RoomForm,
 } from "~/models";
 import { ErrorResponse } from "~/models/api";
 import { Routes } from "~/routers";
@@ -29,7 +31,10 @@ export const useFetchRoomDetail = (id?: string): UseRoomDetailQuery => {
     queryFn: async () => {
       try {
         const response = await apiRequest(id!);
-        return response.data;
+        return {
+          ...response.data,
+          closingAt: dayjs(response.data.closingAt),
+        };
       } catch (error) {
         console.error(error);
         throw error;
@@ -59,5 +64,52 @@ export const useCreateRoom = (): UseRoomCreateMutation => {
       const roomId = response.data.roomId;
       navigate(Routes.rooms.detail.replace(":id", roomId));
     },
+  });
+};
+
+type UseRoomUpdateMutation = UseMutationResult<
+  RoomDetail,
+  ErrorResponse,
+  { id: string; postData: RoomForm },
+  unknown
+>;
+
+export const useUpdateRoom = (): UseRoomUpdateMutation => {
+  const apiRequest = async ({
+    id,
+    postData,
+  }: {
+    id: string;
+    postData: RoomForm;
+  }): Promise<RoomDetail> => {
+    const result = await roomsApi.updateRoom(id, postData);
+
+    return {
+      ...result.data,
+      closingAt: dayjs(result.data.closingAt),
+    };
+  };
+
+  return useMutation({
+    mutationFn: apiRequest,
+  });
+};
+
+type UseRoomDeleteMutation = UseMutationResult<
+  AxiosResponse<void>,
+  ErrorResponse,
+  { id: string },
+  unknown
+>;
+
+export const useDeleteRoomMutation = (): UseRoomDeleteMutation => {
+  const apiRequest = async ({
+    id,
+  }: {
+    id: string;
+  }): Promise<AxiosResponse<void>> => roomsApi.deleteRoom(id);
+
+  return useMutation({
+    mutationFn: apiRequest,
   });
 };

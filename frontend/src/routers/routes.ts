@@ -1,7 +1,7 @@
 export const Routes = {
   init: "",
   auth: {
-    singIn: "/auth/sign-in",
+    signIn: "/auth/sign-in",
     signUp: "/auth/sign-up",
   },
   rooms: {

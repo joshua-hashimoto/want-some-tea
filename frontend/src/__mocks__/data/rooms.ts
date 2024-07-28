@@ -27,3 +27,11 @@ export const roomDetail: RoomDetailResponse = {
   items: purchaseItems,
   closingAt: "2024-12-31",
 };
+
+export const roomDetailWithEmptyItems: RoomDetailResponse = {
+  id: uuidv4(),
+  title: "Mock Room",
+  description: "This is a description for the room",
+  items: [],
+  closingAt: "2024-12-31",
+};

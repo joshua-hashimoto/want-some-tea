@@ -1,10 +1,23 @@
 import { MemoryRouter, MemoryRouterProps } from "react-router-dom";
 
-import { QueryClientProvider } from "@tanstack/react-query";
+import {
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 import { render } from "@testing-library/react";
 import { RecoilRoot } from "recoil";
 
-import { mockedQueryClient } from "../../vitest.setup";
+export const mockedQueryCache = new QueryCache();
+export const mockedQueryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+    },
+  },
+});
+
+export const mockedNavigator = vi.fn();
 
 export const renderComponent = (
   ui: React.ReactNode,

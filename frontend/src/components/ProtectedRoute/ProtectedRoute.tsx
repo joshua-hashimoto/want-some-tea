@@ -8,7 +8,6 @@ import { isLoggedInAtom } from "~/store/auth";
 type Props = OutletProps;
 
 const ProtectedRoute: React.FC<Props> = ({ ...props }) => {
-  // TODO: ログインしてないユーザーはエラー画面に遷移する
   const isLoggedIn = useRecoilValue(isLoggedInAtom);
 
   if (!isLoggedIn) {

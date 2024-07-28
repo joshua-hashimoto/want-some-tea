@@ -2,9 +2,8 @@ import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { Routes } from "~/routers";
-import { renderComponent } from "~/utils/tests";
+import { mockedNavigator, renderComponent } from "~/utils/tests";
 
-import { mockedNavigator } from "../../../vitest.setup";
 import SignUpPage from "./SignUpPage";
 
 const email = "example@example.com";
@@ -134,5 +133,5 @@ test("navigation test", async () => {
   });
   await userEvent.click(submitButton);
 
-  expect(mockedNavigator).toHaveBeenCalledWith(Routes.auth.singIn);
+  expect(mockedNavigator).toHaveBeenCalledWith(Routes.auth.signIn);
 });

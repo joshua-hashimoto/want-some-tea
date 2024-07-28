@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 
+import { Card } from "antd";
 import { Meta, StoryObj } from "@storybook/react";
 import { v4 as uuidv4 } from "uuid";
 
@@ -35,20 +36,22 @@ const meta: Meta<typeof PurchaseItemFormItem> = {
 
     return (
       <Form form={form}>
-        <Form.List name="items">
-          {(fields, { remove }) => (
-            <>
-              {fields.map(({ key, ...restField }) => (
-                <PurchaseItemFormItem
-                  key={key}
-                  form={form}
-                  {...restField}
-                  remove={remove}
-                />
-              ))}
-            </>
-          )}
-        </Form.List>
+        <Card css={{ width: "100%", height: "auto" }}>
+          <Form.List name="items">
+            {(fields, { remove }) => (
+              <>
+                {fields.map(({ key, ...restField }) => (
+                  <PurchaseItemFormItem
+                    key={key}
+                    form={form}
+                    {...restField}
+                    remove={remove}
+                  />
+                ))}
+              </>
+            )}
+          </Form.List>
+        </Card>
       </Form>
     );
   },

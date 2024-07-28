@@ -9,7 +9,14 @@ export const badRequestResponse: ErrorResponse = {
 
 export const unauthorizedStatus = "E0401";
 
-export const unauthorizedRequest: ErrorResponse = {
+export const unauthorizedResponse: ErrorResponse = {
   status: unauthorizedStatus,
   detail: "user is not authorized",
+};
+
+export const serverErrorStatus = "E0500";
+
+export const serverErrorResponse: ErrorResponse = {
+  status: serverErrorStatus,
+  detail: "Something went wrong. Please contact the developer",
 };

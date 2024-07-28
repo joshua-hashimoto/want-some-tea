@@ -1,9 +1,11 @@
-import { QueryCache } from "@tanstack/react-query";
-import { QueryClient } from "@tanstack/react-query";
-
 import { mockServer } from "~/__mocks__/apis/server";
 
 import "@testing-library/jest-dom/vitest";
+import {
+  mockedNavigator,
+  mockedQueryCache,
+  mockedQueryClient,
+} from "~/utils/tests";
 
 // Mock getComputedStyle
 Object.defineProperty(window, "getComputedStyle", {
@@ -27,16 +29,6 @@ Object.defineProperty(window, "matchMedia", {
   })),
 });
 
-export const mockedQueryCache = new QueryCache();
-export const mockedQueryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: false,
-    },
-  },
-});
-
-export const mockedNavigator = vi.fn();
 vi.mock("react-router-dom", async () => {
   const reactRouter = await vi.importActual("react-router-dom");
   return {

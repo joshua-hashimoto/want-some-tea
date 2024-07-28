@@ -1,6 +1,6 @@
 import { atom, selector } from "recoil";
 
-import { client } from "~/apis";
+import { setAuthorizationHeader } from "~/apis/utils";
 
 const accessTokenKey = "accessToken";
 
@@ -11,8 +11,7 @@ export const accessTokenAtom = atom<string | undefined>({
     ({ setSelf, onSet }) => {
       const savedValue = localStorage.getItem(accessTokenKey);
       if (savedValue !== null) {
-        client.defaults.headers.common["Authorization"] =
-          `Bearer ${savedValue}`;
+        setAuthorizationHeader(savedValue);
         setSelf(savedValue);
       }
 
@@ -21,8 +20,7 @@ export const accessTokenAtom = atom<string | undefined>({
           localStorage.removeItem(accessTokenKey);
         } else if (newValue) {
           localStorage.setItem(accessTokenKey, newValue);
-          client.defaults.headers.common["Authorization"] =
-            `Bearer ${newValue}`;
+          setAuthorizationHeader(newValue);
         }
       });
     },

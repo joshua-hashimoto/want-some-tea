@@ -2,7 +2,8 @@ import { useMutation, UseMutationResult } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import { useSetRecoilState } from "recoil";
 
-import { authApi, client } from "~/apis";
+import { authApi } from "~/apis";
+import { clearAuthorizationHeader } from "~/apis/utils";
 import { ErrorResponse } from "~/models";
 import { SignInForm, SignInResponse, SignUpForm } from "~/models/auth";
 import { accessTokenAtom } from "~/store/auth";
@@ -49,6 +50,8 @@ export const useSignOutMutation = (): UseSignOutMutation =>
   useMutation({
     mutationFn: authApi.signOut,
     onSuccess: () => {
-      delete client.defaults.headers.common["Authorization"];
+      clearAuthorizationHeader();
+      localStorage.clear();
+      sessionStorage.clear();
     },
   });

@@ -27,7 +27,7 @@ const RoomCreatePage: React.FC<RoomCreatePageProps> = () => {
                   <Row>
                     <Col span={24}>
                       <Form.Item name="title">
-                        <Input />
+                        <Input data-testid="title-input" />
                       </Form.Item>
                     </Col>
                   </Row>
@@ -38,7 +38,7 @@ const RoomCreatePage: React.FC<RoomCreatePageProps> = () => {
                           <Col>
                             <Form.Item shouldUpdate>
                               {({ getFieldValue }) => {
-                                const roomName = getFieldValue("name");
+                                const roomName = getFieldValue("title");
                                 return (
                                   <Button
                                     htmlType="submit"

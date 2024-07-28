@@ -9,10 +9,12 @@ import {
   RoomForm,
 } from "~/models";
 
-import { roomDetail } from "../data/rooms";
+import { roomDetail, roomDetailWithEmptyItems } from "../data/rooms";
+import { isRequestAuthorized } from "../utils";
 import {
   badRequestMockResponse,
   serverErrorMockResponse,
+  unauthorizedMockResponse,
 } from "./commonResponse";
 
 const url = import.meta.env.VITE_API_URL;
@@ -28,6 +30,11 @@ export const roomMockApis: MockApis = {
   createRoom: http.post<PathParams, RoomCreateForm>(
     `${url}/rooms/create`,
     async ({ request }) => {
+      const isAuthorized = isRequestAuthorized(request);
+      if (!isAuthorized) {
+        return unauthorizedMockResponse;
+      }
+
       const { title } = await request.json();
 
       if (!title) {
@@ -40,7 +47,12 @@ export const roomMockApis: MockApis = {
       return HttpResponse.json(data);
     }
   ),
-  fetchRoom: http.get(`${url}/rooms/:id`, ({ params }) => {
+  fetchRoom: http.get(`${url}/rooms/:id`, ({ request, params }) => {
+    const isAuthorized = isRequestAuthorized(request);
+    if (!isAuthorized) {
+      return unauthorizedMockResponse;
+    }
+
     const roomId = params.id;
 
     if (!roomId) {
@@ -52,6 +64,11 @@ export const roomMockApis: MockApis = {
   updateRoom: http.put<PathParams, RoomForm>(
     `${url}/rooms/:id`,
     async ({ params, request }) => {
+      const isAuthorized = isRequestAuthorized(request);
+      if (!isAuthorized) {
+        return unauthorizedMockResponse;
+      }
+
       try {
         const roomId = params.id;
 
@@ -72,7 +89,12 @@ export const roomMockApis: MockApis = {
       }
     }
   ),
-  deleteRoom: http.delete(`${url}/rooms/:id`, ({ params }) => {
+  deleteRoom: http.delete(`${url}/rooms/:id`, ({ params, request }) => {
+    const isAuthorized = isRequestAuthorized(request);
+    if (!isAuthorized) {
+      return unauthorizedMockResponse;
+    }
+
     const roomId = params.id;
 
     if (!roomId) {
@@ -80,5 +102,28 @@ export const roomMockApis: MockApis = {
     }
 
     return HttpResponse.json(undefined);
+  }),
+};
+
+type CustomMockApis = {
+  fetchRoomWithNoData: HttpHandler;
+};
+
+export const roomCustomMockApis: CustomMockApis = {
+  fetchRoomWithNoData: http.get(`${url}/rooms/:id`, ({ request, params }) => {
+    const isAuthorized = isRequestAuthorized(request);
+    if (!isAuthorized) {
+      return unauthorizedMockResponse;
+    }
+
+    const roomId = params.id;
+
+    if (!roomId) {
+      return badRequestMockResponse;
+    }
+
+    return HttpResponse.json(roomDetailWithEmptyItems, {
+      status: HttpStatusCode.Ok,
+    });
   }),
 };
