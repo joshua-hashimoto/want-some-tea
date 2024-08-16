@@ -26,3 +26,35 @@ services:
     expose:
       - 5173
     stdin_open: true
+  backend:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./backend
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+    environment:
+      APPLICATION_NAME: want-some-tea
+      ENVIRONMENT: development
+      SECRET_KEY:
+      DEBUG: 1
+    volumes:
+      - ./backend:/app
+      - static_volume:/app/staticfiles # for django static files
+      - media_volume:/app/mediafiles # for django media files
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+  db:
+    image: postgres:11
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_USER: want-some-tea
+      POSTGRES_PASSWORD: want-some-tea
+      POSTGRES_DB: want-some-tea
+
+volumes:
+  postgres_data:
+  static_volume: # for django static files
+  media_volume: # for django media files

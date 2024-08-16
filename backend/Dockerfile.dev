@@ -1,0 +1,32 @@
+
+FROM python:3.12 as builder
+
+# set work directory
+WORKDIR /app
+
+RUN pip install poetry
+
+COPY pyproject.toml poetry.lock ./
+
+RUN poetry export -f requirements.txt > requirements.txt
+
+
+# pull base image
+FROM python:3.12
+
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# set work directory
+WORKDIR /app
+
+# install dependencies
+COPY --from=builder /app/requirements.txt .
+RUN pip install -r requirements.txt
+
+# copy project
+COPY ./ ./
+# 左の./はローカルのディレクトリ、右の./はDockerのWORKDIR
+
+# poetry export -f requirements.txt > requirements.txt && pip install -r requirements.txt
