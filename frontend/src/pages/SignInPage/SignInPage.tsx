@@ -34,7 +34,7 @@ const SignInPage: React.FC<SignInPageProps> = () => {
               <Col span={24}>
                 <Form.Item
                   label="メールアドレス"
-                  name="email"
+                  name="username"
                   required
                   rules={[{ type: "email" }]}>
                   <Input type="email" data-testid="email-input" />

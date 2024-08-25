@@ -3,10 +3,9 @@ import { AxiosError, AxiosResponse } from "axios";
 import { useSetRecoilState } from "recoil";
 
 import { authApi } from "~/apis";
-import { clearAuthorizationHeader } from "~/apis/utils";
 import { ErrorResponse } from "~/models";
 import { SignInForm, SignInResponse, SignUpForm } from "~/models/auth";
-import { accessTokenAtom } from "~/store/auth";
+import { isLoggedInAtom } from "~/store/auth";
 
 type UseSignUpMutation = UseMutationResult<
   AxiosResponse<SignInResponse>,
@@ -28,13 +27,12 @@ type UseSignInMutation = UseMutationResult<
 >;
 
 export const useSignInMutation = (): UseSignInMutation => {
-  const setAccessToken = useSetRecoilState(accessTokenAtom);
+  const setIsLoggedIn = useSetRecoilState(isLoggedInAtom);
 
   return useMutation({
     mutationFn: authApi.signIn,
-    onSuccess: (result) => {
-      const data = result.data;
-      setAccessToken(data.accessToken);
+    onSuccess: (_) => {
+      setIsLoggedIn(true);
     },
   });
 };
@@ -50,7 +48,6 @@ export const useSignOutMutation = (): UseSignOutMutation =>
   useMutation({
     mutationFn: authApi.signOut,
     onSuccess: () => {
-      clearAuthorizationHeader();
       localStorage.clear();
       sessionStorage.clear();
     },
