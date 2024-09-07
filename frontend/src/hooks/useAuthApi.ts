@@ -1,11 +1,9 @@
 import { useMutation, UseMutationResult } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
-import { useSetRecoilState } from "recoil";
 
 import { authApi } from "~/apis";
 import { ErrorResponse } from "~/models";
 import { SignInForm, SignInResponse, SignUpForm } from "~/models/auth";
-import { isLoggedInAtom } from "~/store/auth";
 
 type UseSignUpMutation = UseMutationResult<
   AxiosResponse<SignInResponse>,
@@ -26,16 +24,10 @@ type UseSignInMutation = UseMutationResult<
   unknown
 >;
 
-export const useSignInMutation = (): UseSignInMutation => {
-  const setIsLoggedIn = useSetRecoilState(isLoggedInAtom);
-
-  return useMutation({
+export const useSignInMutation = (): UseSignInMutation =>
+  useMutation({
     mutationFn: authApi.signIn,
-    onSuccess: (_) => {
-      setIsLoggedIn(true);
-    },
   });
-};
 
 type UseSignOutMutation = UseMutationResult<
   AxiosResponse<void>,
