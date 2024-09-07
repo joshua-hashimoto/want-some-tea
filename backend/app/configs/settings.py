@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     secret_key: str
     debug: int
     allowed_list: str
+    log_level: str
 
     @property
     def allow_origins(self) -> list[str]:
