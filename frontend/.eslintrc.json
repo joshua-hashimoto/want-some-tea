@@ -1,0 +1,139 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "ignorePatterns": [
+    "*/**/*.d.ts",
+    "**/*.css",
+    "**/*.scss",
+    "**/*.less",
+    "**/*.yml",
+    "**/*.yaml",
+    "**/*.lock"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:sonarjs/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "simple-import-sort",
+    "sonarjs",
+    "react-hooks",
+    "unused-imports"
+  ],
+  "rules": {
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/no-unknown-property": [
+      "error",
+      {
+        "ignore": ["css"]
+      }
+    ],
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "args": "all",
+        "argsIgnorePattern": "^_$|props",
+        "varsIgnorePattern": "^_$|^_"
+      }
+    ],
+    "unused-imports/no-unused-imports": "error",
+    "react/jsx-boolean-value": "warn",
+    "react/jsx-curly-brace-presence": "error",
+    "react/self-closing-comp": [
+      "error",
+      {
+        "component": true,
+        "html": true
+      }
+    ],
+    "react/prop-types": "off",
+    "prefer-template": "warn",
+    "arrow-body-style": ["warn", "as-needed"],
+    "react/jsx-pascal-case": [
+      "error",
+      {
+        "ignore": ["iOS"]
+      }
+    ],
+    "jsx-quotes": ["warn", "prefer-double"],
+    "react/jsx-props-no-spreading": "off",
+    "no-empty-pattern": "warn",
+    "@typescript-eslint/consistent-type-definitions": ["warn", "type"],
+    "react-hooks/exhaustive-deps": "off",
+    "@typescript-eslint/explicit-function-return-type": [
+      "warn",
+      {
+        "allowExpressions": true
+      }
+    ],
+    "@typescript-eslint/no-empty-function": "off",
+    "simple-import-sort/imports": [
+      "error",
+      {
+        "groups": [
+          ["^react"],
+          ["^antd", "^@ant-design/icons", "^@?\\w"],
+          ["~/(.*)"],
+          ["./"],
+          [
+            "./*.module.scss",
+            "./*.module.css",
+            "./*.module.less",
+            "./*.scss",
+            "./*.css",
+            "./*.less"
+          ]
+        ]
+      }
+    ],
+    "no-useless-catch": "off",
+    "curly": ["error", "all"],
+    "no-plusplus": ["error"]
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/resolver": {
+      "alias": {
+        "map": [
+          {
+            "~": "./src/"
+          }
+        ]
+      }
+    }
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/__tests__/**/*.+(ts|tsx|js)",
+        "**/?(*.)+(spec|test).+(ts|tsx|js)"
+      ],
+      "extends": ["plugin:jest-dom/recommended", "plugin:testing-library/react"]
+    },
+    {
+      "files": ["*.stories.@(ts|tsx|js)"],
+      "extends": ["plugin:storybook/recommended"]
+    }
+  ]
+}
