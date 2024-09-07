@@ -9,6 +9,9 @@ class User(CoreModel):
     email = fields.CharField(60, unique=True)
     password_hash = fields.CharField(128)
 
+    class Meta:
+        table = "users"
+
     class PydanticMeta(CoreModel.PydanticMeta):
         exclude = (
             *CoreModel.PydanticMeta.exclude,
