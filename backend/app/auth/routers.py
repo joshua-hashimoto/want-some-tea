@@ -13,20 +13,19 @@ from fastapi import (
 from fastapi.security import OAuth2PasswordRequestForm
 
 from app.configs.settings import get_settings
-from app.resources.exception_handlers import BadRequestException, UnauthorizedException
+from app.resources.exception_handlers import BadRequestException
 from app.users.models import User
 from app.users.services import (
     ACCESS_TOKEN_EXPIRE_MINUTES,
     authenticate_user,
     create_access_token,
-    fake_users_db,
     get_current_active_user,
 )
 
 from .schemas import SignUpRequest
 from .services import get_password_hash
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("uvicorn.api")
 
 settings = get_settings()
 
@@ -43,17 +42,14 @@ def setup_routers(app: FastAPI):
     )
 
 
-@router.post("/login", response_model=None)
-async def login(
+@router.post("/sign-in", response_model=None)
+async def sign_in_user(
     response: Response, form_data: Annotated[OAuth2PasswordRequestForm, Depends()]
 ):
-    user = authenticate_user(fake_users_db, form_data.username, form_data.password)
-    if not user:
-        raise UnauthorizedException()
-
+    user = await authenticate_user(form_data.username, form_data.password)
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": user.username},
+        data={"sub": user.email},
         expires_delta=access_token_expires,
     )
     response.set_cookie(
@@ -64,25 +60,22 @@ async def login(
     )
 
 
-@router.post("/logout", response_model=None)
-async def logout(
+@router.post("/sign-out", response_model=None)
+async def sign_out_user(
     response: Response, access_token: Annotated[str, Depends(get_current_active_user)]
 ):
     response.delete_cookie("access_token")
 
 
-@router.post("/register", status_code=status.HTTP_201_CREATED)
-async def register_user(sign_up_request: SignUpRequest = Body(...)):
-    try:
-        password = sign_up_request.password
-        confirm_password = sign_up_request.confirm_password
-        if password != confirm_password:
-            raise BadRequestException()
-        user = User(
-            email=sign_up_request.email,
-            nickname=sign_up_request.nichname,
-            password_hash=get_password_hash(sign_up_request.password),
-        )
-        await user.save()
-    except Exception as err:
-        raise BadRequestException() from err
+@router.post("/sign-up", status_code=status.HTTP_201_CREATED)
+async def sign_up_user(sign_up_request: SignUpRequest = Body(...)):
+    password = sign_up_request.password
+    confirm_password = sign_up_request.confirm_password
+    if password != confirm_password:
+        raise BadRequestException()
+    user = User(
+        email=sign_up_request.email,
+        nickname=sign_up_request.nickname,
+        password_hash=get_password_hash(sign_up_request.password),
+    )
+    await user.save()
