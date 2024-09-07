@@ -1,5 +1,5 @@
 export type SignInForm = {
-  email: string;
+  username: string; // NOTE: OAuth2の仕様に合わせるため、プロパティ名はusernameにしている。実際にセットされるのはメールアドレス
   password: string;
 };
 

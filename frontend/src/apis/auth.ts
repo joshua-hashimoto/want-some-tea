@@ -15,7 +15,15 @@ export const authEndpoints = (client: AxiosInstance): AuthEndpoints => ({
   },
   signIn: (postData: SignInForm) => {
     const url = "auth/sign-in";
-    return client.post(url, postData);
+    const formData = new FormData();
+    formData.append("username", postData.username);
+    formData.append("password", postData.password);
+    formData.append("grant_type", "password");
+    return client.post(url, formData, {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
   },
   signOut: () => {
     const url = "auth/sign-out";

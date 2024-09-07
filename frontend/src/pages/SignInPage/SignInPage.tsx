@@ -34,7 +34,7 @@ const SignInPage: React.FC<SignInPageProps> = () => {
               <Col span={24}>
                 <Form.Item
                   label="メールアドレス"
-                  name="email"
+                  name="username"
                   required
                   rules={[{ type: "email" }]}>
                   <Input type="email" data-testid="email-input" />
@@ -44,7 +44,7 @@ const SignInPage: React.FC<SignInPageProps> = () => {
                 </Form.Item>
                 <Form.Item shouldUpdate noStyle>
                   {({ getFieldValue }) => {
-                    const emailValue = getFieldValue("email");
+                    const emailValue = getFieldValue("username");
                     const passwordValue = getFieldValue("password");
                     const isDisabled = !emailValue || !passwordValue;
                     return (
