@@ -2,10 +2,12 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, FastAPI
 
-from app.resources.exception_handlers import BadRequestException
+from app.resources.logger import get_logger
 
 from .schemas import User, User_Pydantic
 from .services import get_current_active_user
+
+logger = get_logger()
 
 app_name = "users"
 
@@ -20,11 +22,8 @@ def setup_routers(app: FastAPI):
     )
 
 
-@router.get("/users/me")
+@router.get("/me", response_model=User_Pydantic)
 async def read_users_me(
     current_user: Annotated[User, Depends(get_current_active_user)],
 ):
-    try:
-        return await User_Pydantic.from_tortoise_orm(current_user)
-    except Exception as err:
-        raise BadRequestException() from err
+    return await User_Pydantic.from_tortoise_orm(current_user)
