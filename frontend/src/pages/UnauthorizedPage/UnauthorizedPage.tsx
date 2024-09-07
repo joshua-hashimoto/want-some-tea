@@ -13,7 +13,7 @@ const UnauthorizedPage: React.FC<UnauthorizedPageProps> = ({ ...props }) => {
   const navigate = useNavigate();
 
   const onClick = (): void => {
-    navigate(Routes.rooms.entry);
+    navigate(Routes.auth.signIn);
   };
 
   return (
