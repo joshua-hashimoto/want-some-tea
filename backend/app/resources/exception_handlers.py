@@ -1,77 +1,37 @@
-from fastapi import FastAPI, Request, status
-from fastapi.responses import JSONResponse
+from fastapi import FastAPI, HTTPException, Request, status
 
 
 def setup_exception_handlers(app: FastAPI):
-    app.add_exception_handler(HttpException, http_exception_handler)
-    app.add_exception_handler(BadRequestException, bad_request_exception_handler)
-    app.add_exception_handler(DoesNotExistException, does_not_exist_exception_handler)
-    app.add_exception_handler(UnauthorizedException, unauthorized_exception_handler)
+    app.add_exception_handler(ApiError, api_error_handler)
 
 
-class HttpException(Exception):
-    def __init__(self, message: str, detail: str):
-        self.message = message
-        self.detail = detail
+class ApiError(Exception):
+    status_code: int = status.HTTP_404_NOT_FOUND
+    detail: str = "エラーが発生しました"
+
+    def __init__(self, detail: str | None = None) -> None:
+        self.detail = detail if detail is not None else self.detail
 
 
-async def http_exception_handler(request: Request, exc: HttpException):
-    return JSONResponse(
-        status_code=status.HTTP_400_BAD_REQUEST,
-        content={
-            "message": exc.message,
-            "detail": exc.detail,
-        },
-    )
+class BadRequestException(ApiError):
+    status_code: int = status.HTTP_400_BAD_REQUEST
+    detail: str = "エラーが発生しました"
 
 
-class BadRequestException(Exception):
-    def __init__(
-        self,
-        message: str = "Invalid request",
-        detail: str = "The data you have sent was invalid",
-    ):
-        self.message = message
-        self.detail = detail
+class UnauthorizedException(ApiError):
+    status_code = status.HTTP_401_UNAUTHORIZED
+    detail = "認証に失敗しました"
 
 
-async def bad_request_exception_handler(request: Request, exc: HttpException):
-    return JSONResponse(
-        status_code=status.HTTP_400_BAD_REQUEST,
-        content={
-            "message": exc.message,
-            "detail": exc.detail,
-        },
-    )
+class UnprocessableException(ApiError):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail: str = "処理を実行できませんでした"
 
 
-class DoesNotExistException(Exception):
-    def __init__(self, type):
-        self.type = type
+class DoesNotExistException(ApiError):
+    status_code: int = status.HTTP_400_BAD_REQUEST
+    detail: str = "リクエストしたデータは存在しません"
 
 
-async def does_not_exist_exception_handler(
-    request: Request, exc: DoesNotExistException
-):
-    return JSONResponse(
-        status_code=status.HTTP_404_NOT_FOUND,
-        content={
-            "message": "data does not exist.",
-            "detail": f"{exc.type} with the given id does not exist.",
-        },
-    )
-
-
-class UnauthorizedException(Exception):
-    pass
-
-
-async def unauthorized_exception_handler(request: Request, exc: DoesNotExistException):
-    return JSONResponse(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        content={
-            "message": "data does not exist.",
-            "detail": "Incorrect username or password.",
-        },
-        headers={"WWW-Authenticate": "Bearer"},
-    )
+async def api_error_handler(request: Request, err: ApiError):
+    raise HTTPException(status_code=err.status_code, detail=err.detail)
