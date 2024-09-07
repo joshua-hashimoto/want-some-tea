@@ -39,7 +39,7 @@ export const authMockApis: MockApis = {
     `${url}/auth/sign-in`,
     async ({ request }) => {
       try {
-        const { email, password } = await request.json();
+        const { username: email, password } = await request.json();
         const isDataMissing = !email || !password;
         if (isDataMissing) {
           return badRequestMockResponse;

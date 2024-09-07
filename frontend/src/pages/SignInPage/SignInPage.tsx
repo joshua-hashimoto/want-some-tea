@@ -44,7 +44,7 @@ const SignInPage: React.FC<SignInPageProps> = () => {
                 </Form.Item>
                 <Form.Item shouldUpdate noStyle>
                   {({ getFieldValue }) => {
-                    const emailValue = getFieldValue("email");
+                    const emailValue = getFieldValue("username");
                     const passwordValue = getFieldValue("password");
                     const isDisabled = !emailValue || !passwordValue;
                     return (
