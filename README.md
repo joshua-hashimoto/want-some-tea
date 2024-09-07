@@ -1,5 +1,20 @@
 # want-some-tea
 
+## 目次
+
+- [want-some-tea](#want-some-tea)
+  - [目次](#目次)
+  - [プロジェクトのゴール](#プロジェクトのゴール)
+  - [Tech Stack](#tech-stack)
+  - [Technical Memo](#technical-memo)
+    - [packageを追加した場合](#packageを追加した場合)
+    - [認証の考え方について](#認証の考え方について)
+    - [プロジェクトの修正アイディアについて](#プロジェクトの修正アイディアについて)
+      - [FE](#fe)
+      - [BE](#be)
+    - [エラーハンドリングについて](#エラーハンドリングについて)
+  - [docker-compose.yml](#docker-composeyml)
+
 ## プロジェクトのゴール
 
 - アプリケーションを1から作成する
@@ -61,6 +76,23 @@ docker compose up -d --build
 - CookieはHttpOnlyなのでJavaScriptからアクセスできず、セキュリティが向上する
 - 認証の責務がBEになるので、認証による制限をかけやすい
 
+### プロジェクトの修正アイディアについて
+
+#### FE
+
+- 削除ボタンは作成したユーザーじゃないと消せないようにしたほうが良い
+- 期限を設ける
+
+#### BE
+
+- トークンのリフレッシュを実装する
+- Roomをユーザーに紐づける
+
+### エラーハンドリングについて
+
+FastAPIのmiddlewareでエラーを共通的にハンドリングしてる。
+個別に必要な場合は各ルーティングで行うこと。
+
 ## docker-compose.yml
 
 ```yml
@@ -100,9 +132,14 @@ services:
     environment:
       APPLICATION_NAME: want-some-tea
       ENVIRONMENT: development
-      SECRET_KEY: 
+      SECRET_KEY:
       DEBUG: 1
-      ALLOWED_LIST: localhost
+      ALLOWED_LIST: "*"
+      LOG_LEVEL: DEBUG
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_USER:
+      POSTGRES_PASSWORD:
+      POSTGRES_DB:
     volumes:
       - ./backend:/app
     ports:
