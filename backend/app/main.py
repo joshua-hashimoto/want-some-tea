@@ -4,6 +4,7 @@ from app.configs.database import lifespan
 from app.configs.middlewares import setup_middleware
 
 from .auth import setup_auth
+from .rooms import setup_rooms
 from .users import setup_users
 
 """NOTE
@@ -22,3 +23,4 @@ app = FastAPI(
 setup_middleware(app)
 setup_auth(app)
 setup_users(app)
+setup_rooms(app)
